@@ -1,3 +1,10 @@
+from typing import Optional
+
+from domain.modules.cep.exceptions.invalid_api_version_exception import (
+    InvalidApiVersionException,
+)
+
+
 from infra.services.network.http_endpoint_service import HttpEndpointService
 
 
@@ -19,3 +26,14 @@ class CepService:
             f"{CepService.ENDPOINT_V2}/{cep}"
         )
         return response
+
+    def execute(self, cep: str, version: Optional[int] = 1):
+        if version is not None and version not in (1, 2):
+            raise InvalidApiVersionException(
+                f"Invalid Api Version: {version}, valid versions are: 1 or 2"
+            )
+
+        if version == 2:
+            return self.make_request_v2(cep)
+
+        return self.make_request_v1(cep)
