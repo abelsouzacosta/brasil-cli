@@ -6,10 +6,9 @@ cli = typer.Typer()
 
 
 @cli.command()
-def cep(cep: str):
-    service = CepService()
-    response = service.make_request_v1(cep)
-    print(f"response: {response}")
+def cep(cep: str, api_cep_version: int = 1):
+    result = CepService().execute(cep, api_cep_version)
+    print(f"{result}")
 
 
 if __name__ == "__main__":
