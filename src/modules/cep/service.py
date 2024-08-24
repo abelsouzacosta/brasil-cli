@@ -25,6 +25,7 @@ class CepService:
         response = self.client.fetch_data_from_endpoint(
             f"{CepService.ENDPOINT_V2}/{cep}"
         )
+        del response["location"]
         return response
 
     def execute(self, cep: str, version: Optional[int] = 1):
